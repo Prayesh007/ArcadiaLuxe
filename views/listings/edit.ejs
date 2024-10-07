@@ -1,0 +1,151 @@
+<% layout("/layouts/boilerplate") %>
+<style>
+    .dropdown-menu {
+        padding: 10px;
+    }
+    
+    .dropdown-menu li {
+        margin: 5px 0;
+    }
+    
+    </style>
+    <div class="row">
+        <div class="col-8 offset-2">
+            <br>
+            <h3>Edit your list</h3>
+            <form method="post" action="/listings/<%= listing._id %>?_method=PUT" novalidate class="needs-validation" enctype="multipart/form-data">
+                <div class="mb-3">
+                    <label for="title" class="form-label">Title :</label>
+                    <input type="text" name="listing[title]" value="<%= listing.title %>" class="form-control" required>
+                    <div class="valid-feedback">Title looks good!</div>
+                    <div class="invalid-feedback">Please enter a title!</div>
+
+
+                </div>
+                <div class="mb-3">
+                    <label for="description" class="form-label">Description :</label>
+                    <textarea type="text" name="listing[description]"
+                        class="form-control" required><%= listing.description %></textarea>
+                        <div class="invalid-feedback">Please enter a short description!</div>
+
+
+                </div>
+                <div class="mb-3">
+                   <img src="<%=originalImageUrl%>" alt="">
+
+                </div>
+                <div class="mb-3">
+                    <label for="image" class="form-label">Upload New Image</label>
+                    <input type="file" name="listing[image]" class="form-control">
+
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <label for="price" class="form-label">Price :</label>
+                        <input type="number" name="listing[price]" value="<%= listing.price %>" class="form-control" required>
+                        <div class="invalid-feedback">Please enter a valid price!</div>
+
+
+                    </div>
+                    <div class="col-md-8">
+                        <label for="country" class="form-label">Country :</label>
+                        <input type="text" name="listing[country]" value="<%= listing.country %>" class="form-control" required>
+                        <div class="invalid-feedback">Please enter the name of country!</div>
+
+
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="mb-3 col-md-6">
+                        <label for="location" class="form-label">Location</label>
+                        <input type="text" name="listing[location]" placeholder="enter location" class="form-control" required>
+                        <div class="invalid-feedback">Please enter a valid location!</div>
+                    </div>
+    
+                    <div class="mb-3 col-md-6">
+                        <label class="form-label" for="category">Category</label>
+                        <div class="dropdown">
+                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                                Choose categories
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                <li>
+                                    <input type="checkbox" id="categoryTrending" value="trending" onchange="updateSelectedCategories()">
+                                    <label for="categoryTrending">Trending</label>
+                                </li>
+                                <li>
+                                    <input type="checkbox" id="categoryRooms" value="rooms" onchange="updateSelectedCategories()">
+                                    <label for="categoryRooms">Rooms</label>
+                                </li>
+                                <li>
+                                    <input type="checkbox" id="categoryIconicCities" value="iconic cities" onchange="updateSelectedCategories()">
+                                    <label for="categoryIconicCities">Iconic Cities</label>
+                                </li>
+                                <li>
+                                    <input type="checkbox" id="categoryMountains" value="mountains" onchange="updateSelectedCategories()">
+                                    <label for="categoryMountains">Mountains</label>
+                                </li>
+                                <li>
+                                    <input type="checkbox" id="categoryCastles" value="castles" onchange="updateSelectedCategories()">
+                                    <label for="categoryCastles">Castles</label>
+                                </li>
+                                <li>
+                                    <input type="checkbox" id="categoryPools" value="pools" onchange="updateSelectedCategories()">
+                                    <label for="categoryPools">Pools</label>
+                                </li>
+                                <li>
+                                    <input type="checkbox" id="categoryCamping" value="camping" onchange="updateSelectedCategories()">
+                                    <label for="categoryCamping">Camping</label>
+                                </li>
+                                <li>
+                                    <input type="checkbox" id="categoryFarms" value="farms" onchange="updateSelectedCategories()">
+                                    <label for="categoryFarms">Farms</label>
+                                </li>
+                                <li>
+                                    <input type="checkbox" id="categoryArctic" value="arctic" onchange="updateSelectedCategories()">
+                                    <label for="categoryArctic">Arctic</label>
+                                </li>
+                                <li>
+                                    <input type="checkbox" id="categoryLuxury" value="luxury" onchange="updateSelectedCategories()">
+                                    <label for="categoryLuxury">Luxury</label>
+                                </li>
+                                <li>
+                                    <input type="checkbox" id="categoryBoats" value="boats" onchange="updateSelectedCategories()">
+                                    <label for="categoryBoats">Boats</label>
+                                </li>
+                                <li>
+                                    <input type="checkbox" id="categoryIsland" value="island" onchange="updateSelectedCategories()">
+                                    <label for="categoryIsland">Island</label>
+                                </li>
+                            </ul>
+                        </div>
+                        <input type="hidden" name="listing[category]" id="selectedCategories">
+                    </div>
+                    
+                    
+                </div>
+                <br>
+                <button class="btn btn-dark edit-btn">Edit</button>
+
+            </form>
+        </div>
+    </div>
+    
+
+    <script>
+        function updateSelectedCategories() {
+        const checkboxes = document.querySelectorAll('.dropdown-menu input[type="checkbox"]');
+        const selectedCategories = [];
+    
+        checkboxes.forEach((checkbox) => {
+            if (checkbox.checked) {
+                selectedCategories.push(checkbox.value);
+            }
+        });
+    
+        document.getElementById('selectedCategories').value = selectedCategories.join(',');
+    }
+    
+    
+    </script>

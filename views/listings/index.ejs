@@ -1,0 +1,166 @@
+<% layout("/layouts/boilerplate") %>
+<style>
+    #filters {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-evenly;
+    }
+    .filter, .All {
+        text-align: center;
+        margin-right: 0.5rem;
+        margin-left: 0.5rem;
+        margin-top: 1.5rem;
+        opacity: 0.7;
+    }
+    .filter:hover, .All:hover {
+        opacity: 1;
+        cursor: pointer;
+    }
+    .tax-toggle input {
+        background-color: white !important;
+    }
+    #flexSwitchCheckDefault:checked {
+        background-color: blue !important;
+    }
+    .hidden {
+        display: none;
+    }
+    .tax-toggle {
+        border: 1px solid white;
+        border-radius: 1rem;
+        height: 3.5rem;
+        padding: 1rem;
+    }
+</style>
+
+<div id="filters">
+    <div class="All">
+        <a style="text-decoration: none; color: white;" href="/listings">
+            <div><img width="30" height="30" src="https://img.icons8.com/carbon-copy/100/FFFFFF/all.png" alt="all"/></div>
+            <p>All</p>                    
+        </a>
+    </div>
+    <div class="filter" data-category="trending">
+        <div><img width="30" height="30" src="https://img.icons8.com/ios-glyphs/30/FFFFFF/fire-element--v1.png" alt="fire-element--v1"/></div>
+        <p>Trending</p>
+    </div>
+    <div class="filter" data-category="rooms">
+        <div><img width="30" height="30" src="https://img.icons8.com/ios/50/FFFFFF/sleeping-in-bed.png" alt="sleeping-in-bed"/></div>
+        <p>Rooms</p>
+    </div>
+    <div class="filter" data-category="iconic cities">
+        <div><img width="30" height="30" src="https://img.icons8.com/dotty/80/FFFFFF/statue-of-liberty.png" alt="statue-of-liberty"/></div>
+        <p>Iconic Cities</p>
+    </div>
+    <div class="filter" data-category="mountains">
+        <div><img width="30" height="30" src="https://img.icons8.com/ios/50/FFFFFF/landscape.png" alt="landscape"/></div>
+        <p>Mountains</p>
+    </div>
+    <div class="filter" data-category="castles">
+        <div><img width="30" height="30" src="https://img.icons8.com/ios/50/FFFFFF/palace.png" alt="palace"/></div>
+        <p>Castles</p>
+    </div>
+    <div class="filter" data-category="pools">
+        <div><img width="30" height="30" src="https://img.icons8.com/ios-filled/50/FFFFFF/swimming.png" alt="swimming"/></div>
+        <p>Pools</p>
+    </div>
+    <div class="filter" data-category="camping">
+        <div><img width="30" height="30" src="https://img.icons8.com/ios-filled/50/FFFFFF/camping-tent.png" alt="camping-tent"/></div>
+        <p>Camping</p>
+    </div>
+    <div class="filter" data-category="farms">
+        <div><img width="30" height="30" src="https://img.icons8.com/ios/50/FFFFFF/strawberry.png" alt="strawberry"/></div>
+        <p>Farms</p>
+    </div>
+    <div class="filter" data-category="arctic">
+        <div><img width="30" height="30" src="https://img.icons8.com/ios/50/FFFFFF/winter.png" alt="winter"/></div>
+        <p>Arctic</p>
+    </div>
+    <div class="filter" data-category="luxury">
+        <div><img width="30" height="30" src="https://img.icons8.com/ios/50/FFFFFF/champagne.png" alt="champagne"/></div>
+        <p>Luxury</p>
+    </div>
+    <div class="filter" data-category="boats">
+        <div><img width="30" height="30" src="https://img.icons8.com/ios/50/FFFFFF/yacht.png" alt="yacht"/></div>
+        <p>Boats</p>
+    </div>
+    <div class="filter" data-category="island">
+        <div><img width="30" height="30" src="https://img.icons8.com/ios/50/FFFFFF/island-on-water.png" alt="island-on-water"/></div>
+        <p>Island</p>
+    </div>
+    <div class="tax-toggle">
+        <div class="form-check-reverse form-switch">
+            <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
+            <label class="form-check-label" for="flexSwitchCheckDefault">Display total after taxes</label>
+        </div>
+    </div>
+</div>
+
+<div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1 mt-3">
+    <% for(let listing of allListings) { %>
+        <a style="color: transparent !important;" href="/listings/<%= listing._id %>">
+            <div class="card listing-card" data-categories="<%= listing.category.join(',') %>">
+                <img src="<%= listing.image.url %>" class="card-img-top" alt="listing-image" style="height: 20rem;">
+                <div class="card-img-overlay">
+                    <h5 class="card-title"><%= listing.title %></h5>
+                    <p class="card-text"><%= listing.description %></p>
+                    <p class="card-text"><%= listing.location %>, <%= listing.country %></p>
+                </div>
+                <div class="card-body">
+                    <p class="card-text"><b><%= listing.title %></b></p>
+                    <p class="without-tax">&#8377;<%= listing.price.toLocaleString('en-IN'); %>/ night</p>
+                    <p class="with-tax hidden">&#8377;<%=(listing.price * 0.18 + listing.price).toLocaleString('en-IN'); %>/ night GST invoice</p>
+                </div>
+            </div>
+        </a>
+    <% } %>
+</div>
+
+
+
+<script>
+    let taxToggle = document.getElementById("flexSwitchCheckDefault");
+    let withTax = document.getElementsByClassName("with-tax");
+    let withoutTax = document.getElementsByClassName("without-tax");
+
+    // Toggle tax visibility
+    taxToggle.addEventListener('click', () => {
+        for (let i = 0; i < withTax.length; i++) {
+            withTax[i].classList.toggle('hidden');
+        }
+        for (let i = 0; i < withoutTax.length; i++) {
+            withoutTax[i].classList.toggle('hidden');
+        }
+    });
+
+    const filterButtons = document.querySelectorAll('.filter');
+    const allListings = document.querySelectorAll('.listing-card'); // All listings
+
+    filterButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            const filterText = button.dataset.category || 'all';
+            const listingsContainer = document.querySelector('.row'); // Listings container
+            listingsContainer.innerHTML = ''; // Clear existing listings
+
+            // Filter and clone matching listings
+            allListings.forEach(listing => {
+                const categories = listing.getAttribute('data-categories').split(',');
+                if (filterText === 'all' || categories.includes(filterText)) {
+                    const clonedListing = listing.cloneNode(true);
+                    
+                    // Fix the anchor tag issue by attaching event listener to cloned card
+                    const anchorTag = clonedListing.closest('a');
+                    if (anchorTag) {
+                        clonedListing.addEventListener('click', () => {
+                            window.location.href = anchorTag.href;
+                        });
+                    }
+                    
+                    listingsContainer.appendChild(clonedListing);
+                }
+            });
+        });
+    });
+</script>
+  

@@ -1,0 +1,67 @@
+<nav class="navbar navbar-expand-md border-botttom sticky-top">
+    <div class="container-fluid">
+
+            <div class="logo">
+                <a class="navbar-brand logo-img" href="/listings"><img src="/assets/ArcadiaLuxe.jpg" alt="AL"></a>
+                <a class="nav-link logo-name" href="/listings">ArcadiaLuxe</a>
+        
+              </div>
+                
+                    <div class="navbar-nav search-container">
+                        <form class="d-flex" role="search" action="/listings" method="GET">
+                            <input class="form-control me-2 search-input" id="search-input" name="query" type="search" placeholder="Search Destinations" aria-label="Search" required>
+                            <button class="btn search-btn" type="submit">
+                                <img width="25" height="25" src="https://img.icons8.com/stencil/32/search.png" alt="search"/>Search
+                            </button>
+                        </form>
+                    </div>
+
+      
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            
+            <div class="navbar-nav login-functions">
+            <a class="nav-link" href="/listings/new">Offer your retreat</a>
+            <%if(!currUser) { %>
+                <a class="nav-link" href="/login"><button class="btn btn-light login-btn">
+                        <img width="32" height="32" src="https://img.icons8.com/fluency/48/menu--v1.png"
+                            alt="menu--v1" />
+                        <img width="32" height="32" src="https://img.icons8.com/pulsar-gradient/48/user.png"
+                            alt="user" />
+                    </button></a>
+                <% } %>
+                    <%if(currUser) { %>
+
+                        <a class="nav-link" href="/logout"><button class="btn logout-btn">
+                            <span><%=currUser.username[0]%>&nbsp;&nbsp;</span>
+                            <span><img width="30" height="30" src="https://img.icons8.com/external-tal-revivo-bold-tal-revivo/24/FFFFFF/external-online-account-logout-with-arrow-direction-mark-login-bold-tal-revivo.png" alt="external-online-account-logout-with-arrow-direction-mark-login-bold-tal-revivo"/></button></span>
+                        </a>
+                        <% } %>
+            </div>
+        </div> 
+    </div>
+</nav>
+
+<script>
+    const placeholders = [
+        "Paris",
+        "Kyoto",
+        "USA",
+        "Italy",
+        "Amsterdam"
+    ];
+
+    let index = 0;
+    const searchInput = document.getElementById('search-input');
+
+    function changePlaceholder() {
+        searchInput.placeholder = placeholders[index];
+
+        index = (index + 1) % placeholders.length;
+    }
+
+    setInterval(changePlaceholder, 2000);
+</script>

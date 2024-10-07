@@ -1,0 +1,121 @@
+<% layout("/layouts/boilerplate") %>
+<style>
+    
+</style>
+    <div class="row show-list">
+        <div class="card-title mt-3 mb-3">
+            <h3 class="listing-title">
+                <%= listing.title %>
+            </h3>
+            <span class="owner-name card-text">owned by : <%= listing.owner.username %> </span>
+        </div>
+
+        <div class="listing-card">
+            <img src="<%=listing.image.url%>" class="card-img-top show-img" alt="404">
+            <div class="show-card-body">
+                <p class="card-text">                    <br>
+                    "<%= listing.description %>"</p>
+                    <p class="card-text">Price : &#8377; <%= listing.price.toLocaleString('en-IN'); %></p>
+
+                    <p class="card-text">Loation : <%= listing.location %></p>
+
+                    <p class="card-text">Country : <%= listing.country %></p>        
+                
+            </div>
+        </div>
+
+        <br>
+        <% if(currUser && listing.owner._id.equals(currUser._id)) { %>
+        <div class="two-buttons">
+            <a href="/listings/<%=listing._id%>/edit" class="btn btn-dark edit-button">Edit</a>
+            <br>
+            <form method="post" action="/listings/<%= listing._id %>?_method=DELETE">
+                <button class="btn btn-dark delete-button">Delete</button>
+            </form>
+        </div>
+        <% } %>
+        <div class="mb-3">
+            <hr>
+            <h3>Where you'll Be</h3>
+            <div id="map"></div>
+        </div>
+
+
+        <div class="mb-3">
+            <hr>
+            <% if(currUser) { %>
+            <h4>Leave a review</h4>
+            <form action="/listings/<%=listing._id%>/reviews" method="post" novalidate class="needs-validation">
+                <!-- <div class="mb-3 mt-3">
+                    <label for="rating" class="form-label">Rating</label>
+                    <input type="range" min="1" max="5" name="review[rating]" id="rating" class="form-range">
+                </div> -->
+                <div class="mb-3 mt-3">
+                <label for="rating" class="form-label">Rating</label>
+                <fieldset class="starability-growRotate">
+                    <input type="radio" id="no-rate" class="input-no-rate" name="review[rating]" value="3" checked aria-label="No rating." />
+                    <input type="radio" id="first-rate1" name="review[rating]" value="1" />
+                    <label for="first-rate1" title="Terrible">1 star</label>
+                    <input type="radio" id="first-rate2" name="review[rating]" value="2" />
+                    <label for="first-rate2" title="Not good">2 stars</label>
+                    <input type="radio" id="first-rate3" name="review[rating]" value="3" />
+                    <label for="first-rate3" title="Average">3 stars</label>
+                    <input type="radio" id="first-rate4" name="review[rating]" value="4" />
+                    <label for="first-rate4" title="Very good">4 stars</label>
+                    <input type="radio" id="first-rate5" name="review[rating]" value="5" />
+                    <label for="first-rate5" title="Amazing">5 stars</label>
+                  </fieldset>
+                  </div>
+                <div class="mb-3 mt-3">
+                    <label for="comment" class="form-label">Comments</label>
+                    <textarea name="review[comment]" id="comment" cols="30" rows="5" class="form-control"
+                        required></textarea>
+                    <div class="invalid-feedback">This feild cannot be empty!</div>
+                </div>
+                <button class="btn btn-outline-light">Submit</button>
+            </form>
+            <% } %>
+            <% if(!currUser) { %>
+                <h6>Please login to leave a review.</h6>
+                <% } %>
+            <hr>            
+
+            <div class="row">
+    <% for (review of listing.reviews) { %>
+        <p><b>All Reviews</b></p>
+            <div class="card review-card mb-3">
+                <div class="card-body">
+                    <h5 class="card-title author-name">
+                        <span><%=review.author.username[0]%></span>
+                        <span><%=review.author.username%></span>
+                        <div class="mt-3" style="font-size: 12px;"><%=review.createdAt.toString().split(" ")[13]%> At <%=review.createdAt.toString().split(" ").slice(0,4).join("-")%></div>
+                    </h5>                    
+                    <p  class="starability-result" data-rating="<%=review.rating%>"></p>
+                    <h6 class="card-subtitle mb-2 date"></h6>
+                    <p class="card-text"><%=review.comment%></p>
+                </div>
+                <form method="post" action="/listings/<%=listing._id%>/reviews/<%=review._id%>?_method=DELETE">
+                    <button class="btn btn-sm btn-dark review-button mb-3 mt-3">Delete</button>
+                </form>
+            </div>
+    <% } %>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script>
+        var map = L.map('map').setView(['<%=coordinates[1]%>','<%=coordinates[0]%>'], 13);  // Set initial view to [Latitude, Longitude], Zoom level
+
+        L.tileLayer('https://api.maptiler.com/maps/bright/{z}/{x}/{y}.png?key=<%=process.env.MAP_TOKEN%>', {
+        attribution: '&copy; <a href="https://www.maptiler.com/copyright/">MapTiler</a>',
+        }).addTo(map);
+
+        var marker = L.marker(['<%= coordinates[1]%>','<%=coordinates[0]%>']).addTo(map);
+        marker.bindPopup("<b><%= listing.title %></b><br><%= listing.location %>").openPopup();
+
+        
+    </script>
+
+
+
