@@ -151,6 +151,23 @@ const isAuthor = async (req, res, next) => {
 
 // -----------------------------------------------  Listing  ----------------------------------------------------------------
 
+// root route
+
+app.get("/" ,  wrapAsync(async (req, res) => {
+    const { query } = req.query;
+    let searchRegex = new RegExp(query, 'i');
+
+    const allListings = await Listing.find({
+        $or: [
+            { title: searchRegex },
+            { location: searchRegex },
+            { country: searchRegex }
+        ]
+    });
+
+    res.render("./listings/index.ejs", { allListings });
+}));
+
 // index route 
 app.get("/listings", wrapAsync(async (req, res) => {
     const { query } = req.query;
