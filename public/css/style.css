@@ -214,6 +214,9 @@ body{
     margin-left: 1rem;
 }
 .edit-button{
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
     width: 200px !important;
 }
 
@@ -307,23 +310,33 @@ background-color: black !important;
 }
 @media (max-width :500px) {
     .search-container{
-        width: 230px;
+        width: 160px;
     }
     .listing-card{
         width: 90% !important;
     }
+    .show-list{
+        padding: 0 !important; 
+   }
+    .show-list-card{
+        width: 100% !important;
+    }
     .logo-img img {
-        width: 70px !important;
+        width: 65px !important;
         height: 45px !important;
     }
     .container h3 {
-        font-size: 20px;
+        font-size: 15px;
     }
     .owner-name{
-        font-size: 15px;
+        font-size: 10px;
     }
     .review-card{
         width: 90% !important;
+    }
+    .search{
+        display: none !important;
+
     }
 
 
