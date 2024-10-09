@@ -94,9 +94,11 @@
                     <h6 class="card-subtitle mb-2 date"></h6>
                     <p class="card-text"><%=review.comment%></p>
                 </div>
+                <%if(currUser) { %>
                 <form method="post" action="/listings/<%=listing._id%>/reviews/<%=review._id%>?_method=DELETE">
                     <button class="btn btn-sm btn-dark review-button mb-3 mt-3">Delete</button>
                 </form>
+                <% } %>
             </div>
     <% } %>
             </div>
