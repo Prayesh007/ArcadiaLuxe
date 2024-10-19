@@ -275,8 +275,8 @@ app.put("/listings/:id", isLoggedIn, isOwner, upload.single("listing[image]") , 
     let url = req.file.path;
     let  filename = req.file.filename;
     listing.image = {url,filename};
-    await listing.save();        
     }
+    await listing.save();        
 
     req.flash("success", "Listing updated!");
     res.redirect(`/listings/${id}`);
