@@ -1,98 +1,191 @@
 <% layout("/layouts/boilerplate") %>
-<style>
+<!-- <style>
     #filters {
         display: flex;
-        flex-wrap: wrap;
         align-items: center;
-        justify-content: space-evenly;
+        justify-content: flex-start;
+        overflow-x: auto; /* Allow horizontal scrolling */
+        white-space: nowrap; /* Prevent wrapping */
+        padding: 1rem;
+        gap: 1rem; /* Add space between filters */
     }
+    
     .filter, .All {
         text-align: center;
-        margin-right: 0.5rem;
-        margin-left: 0.5rem;
-        margin-top: 1.5rem;
+        margin: 0.5rem 1rem 0 1rem;
         opacity: 0.7;
+        white-space: nowrap; /* Ensure the filters don’t break into multiple lines */
     }
+
     .filter:hover, .All:hover {
         opacity: 1;
         cursor: pointer;
     }
-    .tax-toggle input {
-        background-color: white !important;
-    }
-    #flexSwitchCheckDefault:checked {
-        background-color: blue !important;
-    }
-    .hidden {
-        display: none;
-    }
+
     .tax-toggle {
         border: 1px solid white;
         border-radius: 1rem;
         height: 3.5rem;
         padding: 1rem;
     }
+
+    .tax-toggle input {
+        background-color: white !important;
+    }
+
+    #flexSwitchCheckDefault:checked {
+        background-color: blue !important;
+    }
+
+    .hidden {
+        display: none;
+    }
+
+    /* Hide scrollbar on Webkit-based browsers (Chrome, Safari) */
+    #filters::-webkit-scrollbar {
+        display: none;
+    }
+
+    /* Hide scrollbar on other browsers */
+    #filters {
+        -ms-overflow-style: none;  /* IE and Edge */
+        scrollbar-width: none;  /* Firefox */
+    }
+</style> -->
+<style>
+    #filters-container {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        width: 100%;
+    }
+
+    #filters {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        overflow-x: auto; /* Allow horizontal scrolling for filters */
+        white-space: nowrap; /* Prevent wrapping */
+        padding: 1rem;
+        gap: 1rem; /* Add space between filters */
+        flex-grow: 1; /* Make the filter section occupy the remaining width */
+    }
+
+    .filter, .All {
+        text-align: center;
+        margin: 0.5rem 0.5rem 0 0.5rem;
+        opacity: 0.7;
+        white-space: nowrap; /* Ensure the filters don’t break into multiple lines */
+    }
+
+    .filter:hover, .All:hover {
+        opacity: 1;
+        cursor: pointer;
+    }
+
+    .tax-toggle {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border: 1px solid white;
+        border-radius: 1rem;
+        height: 3.5rem;
+        padding: 1rem;
+        white-space: nowrap; /* Prevent text from wrapping */
+        flex-shrink: 0; /* Prevent the tax-toggle from shrinking */
+        margin: -0.5rem 0.5rem 0 0.5rem;
+    }
+    .tax-toggle-mobile{
+        display: none;
+    }
+    
+
+    .tax-toggle input {
+        background-color: white !important;
+    }
+
+    #flexSwitchCheckDefault:checked {
+        background-color: blue !important;
+    }
+
+    .hidden {
+        display: none;
+    }
+
+    /* Hide scrollbar on Webkit-based browsers (Chrome, Safari) */
+    #filters::-webkit-scrollbar {
+        display: none;
+    }
+
+    /* Hide scrollbar on other browsers */
+    #filters {
+        -ms-overflow-style: none;  /* IE and Edge */
+        scrollbar-width: none;  /* Firefox */
+    }
 </style>
 
-<div id="filters">
-    <div class="All">
-        <a style="text-decoration: none; color: white;" href="/listings">
-            <div><img width="30" height="30" src="https://img.icons8.com/carbon-copy/100/FFFFFF/all.png" alt="all"/></div>
-            <p>All</p>                    
-        </a>
-    </div>
-    <div class="filter" data-category="trending">
-        <div><img width="30" height="30" src="https://img.icons8.com/ios-glyphs/30/FFFFFF/fire-element--v1.png" alt="fire-element--v1"/></div>
-        <p>Trending</p>
-    </div>
-    <div class="filter" data-category="rooms">
-        <div><img width="30" height="30" src="https://img.icons8.com/ios/50/FFFFFF/sleeping-in-bed.png" alt="sleeping-in-bed"/></div>
-        <p>Rooms</p>
-    </div>
-    <div class="filter" data-category="iconic cities">
-        <div><img width="30" height="30" src="https://img.icons8.com/dotty/80/FFFFFF/statue-of-liberty.png" alt="statue-of-liberty"/></div>
-        <p>Iconic Cities</p>
-    </div>
-    <div class="filter" data-category="mountains">
-        <div><img width="30" height="30" src="https://img.icons8.com/ios/50/FFFFFF/landscape.png" alt="landscape"/></div>
-        <p>Mountains</p>
-    </div>
-    <div class="filter" data-category="castles">
-        <div><img width="30" height="30" src="https://img.icons8.com/ios/50/FFFFFF/palace.png" alt="palace"/></div>
-        <p>Castles</p>
-    </div>
-    <div class="filter" data-category="pools">
-        <div><img width="30" height="30" src="https://img.icons8.com/ios-filled/50/FFFFFF/swimming.png" alt="swimming"/></div>
-        <p>Pools</p>
-    </div>
-    <div class="filter" data-category="camping">
-        <div><img width="30" height="30" src="https://img.icons8.com/ios-filled/50/FFFFFF/camping-tent.png" alt="camping-tent"/></div>
-        <p>Camping</p>
-    </div>
-    <div class="filter" data-category="farms">
-        <div><img width="30" height="30" src="https://img.icons8.com/ios/50/FFFFFF/strawberry.png" alt="strawberry"/></div>
-        <p>Farms</p>
-    </div>
-    <div class="filter" data-category="arctic">
-        <div><img width="30" height="30" src="https://img.icons8.com/ios/50/FFFFFF/winter.png" alt="winter"/></div>
-        <p>Arctic</p>
-    </div>
-    <div class="filter" data-category="luxury">
-        <div><img width="30" height="30" src="https://img.icons8.com/ios/50/FFFFFF/champagne.png" alt="champagne"/></div>
-        <p>Luxury</p>
-    </div>
-    <div class="filter" data-category="boats">
-        <div><img width="30" height="30" src="https://img.icons8.com/ios/50/FFFFFF/yacht.png" alt="yacht"/></div>
-        <p>Boats</p>
-    </div>
-    <div class="filter" data-category="island">
-        <div><img width="30" height="30" src="https://img.icons8.com/ios/50/FFFFFF/island-on-water.png" alt="island-on-water"/></div>
-        <p>Island</p>
+
+<div id="filters-container">
+    <div id="filters">
+        <div class="All">
+            <a style="text-decoration: none; color: white;" href="/listings">
+                <div><img width="30" height="30" src="https://img.icons8.com/carbon-copy/100/FFFFFF/all.png" alt="all"/></div>
+                <p>All</p>
+            </a>
+        </div>
+        <div class="filter" data-category="trending">
+            <div><img width="30" height="30" src="https://img.icons8.com/ios-glyphs/30/FFFFFF/fire-element--v1.png" alt="fire-element--v1"/></div>
+            <p>Trending</p>
+        </div>
+        <div class="filter" data-category="rooms">
+            <div><img width="30" height="30" src="https://img.icons8.com/ios/50/FFFFFF/sleeping-in-bed.png" alt="sleeping-in-bed"/></div>
+            <p>Rooms</p>
+        </div>
+        <div class="filter" data-category="iconic cities">
+            <div><img width="30" height="30" src="https://img.icons8.com/dotty/80/FFFFFF/statue-of-liberty.png" alt="statue-of-liberty"/></div>
+            <p>Iconic Cities</p>
+        </div>
+        <div class="filter" data-category="mountains">
+            <div><img width="30" height="30" src="https://img.icons8.com/ios/50/FFFFFF/landscape.png" alt="landscape"/></div>
+            <p>Mountains</p>
+        </div>
+        <div class="filter" data-category="castles">
+            <div><img width="30" height="30" src="https://img.icons8.com/ios/50/FFFFFF/palace.png" alt="palace"/></div>
+            <p>Castles</p>
+        </div>
+        <div class="filter" data-category="pools">
+            <div><img width="30" height="30" src="https://img.icons8.com/ios-filled/50/FFFFFF/swimming.png" alt="swimming"/></div>
+            <p>Pools</p>
+        </div>
+        <div class="filter" data-category="camping">
+            <div><img width="30" height="30" src="https://img.icons8.com/ios-filled/50/FFFFFF/camping-tent.png" alt="camping-tent"/></div>
+            <p>Camping</p>
+        </div>
+        <div class="filter" data-category="farms">
+            <div><img width="30" height="30" src="https://img.icons8.com/ios/50/FFFFFF/strawberry.png" alt="strawberry"/></div>
+            <p>Farms</p>
+        </div>
+        <div class="filter" data-category="arctic">
+            <div><img width="30" height="30" src="https://img.icons8.com/ios/50/FFFFFF/winter.png" alt="winter"/></div>
+            <p>Arctic</p>
+        </div>
+        <div class="filter" data-category="luxury">
+            <div><img width="30" height="30" src="https://img.icons8.com/ios/50/FFFFFF/champagne.png" alt="champagne"/></div>
+            <p>Luxury</p>
+        </div>
+        <div class="filter" data-category="boats">
+            <div><img width="30" height="30" src="https://img.icons8.com/ios/50/FFFFFF/yacht.png" alt="yacht"/></div>
+            <p>Boats</p>
+        </div>
+        <div class="filter" data-category="island">
+            <div><img width="30" height="30" src="https://img.icons8.com/ios/50/FFFFFF/island-on-water.png" alt="island-on-water"/></div>
+            <p>Island</p>
+        </div>
     </div>
     <div class="tax-toggle">
         <div class="form-check-reverse form-switch">
             <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
-            <label class="form-check-label" for="flexSwitchCheckDefault">Display total after taxes</label>
+            <label class="form-check-label" for="flexSwitchCheckDefault"><span class="tax-toggle-pc">Display total after taxes</span><img class="tax-toggle-mobile" width="40" height="40" src="https://img.icons8.com/external-others-nixx-design/67/FFFFFF/external-taxes-icon-currency-lineal-others-nixx-design.png" alt="external-taxes-icon-currency-lineal-others-nixx-design"/></label>
         </div>
     </div>
 </div>
@@ -162,5 +255,18 @@
             });
         });
     });
+
+    document.getElementById('flexSwitchCheckDefault').addEventListener('change', function() {
+    const taxToggleDiv = document.querySelector('.tax-toggle');
+    
+    if (this.checked) {
+        // Change background to black when checked
+        taxToggleDiv.style.backgroundColor = '#915594';
+    } else {
+        // Revert background color when unchecked (optional)
+        taxToggleDiv.style.backgroundColor = '';
+    }
+});
+
 </script>
   

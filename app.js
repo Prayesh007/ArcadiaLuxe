@@ -372,21 +372,6 @@ app.delete("/listings/:id/reviews/:reviewId", isLoggedIn, isAuthor, wrapAsync(as
 
 }));
 
-// -------------------------------------------------Search-------------------------------------------------------------------------------------------
-// search route
-// app.get('/search', wrapAsync(async (req, res) => {
-//     const { query } = req.query; // Get the search query
-
-//     let searchResults = await Listing.find({
-//         $or: [
-//             { title: { $regex: query, $options: 'i' } }, // Case-insensitive search
-//         ]
-//     });
-
-//     res.render('./listing/index.ejs', { searchResults, query }); // Render the search results
-// }));
-
-
 // -----------------------------------------------    MW    -----------------------------------------------------------------------------------------
 
 // app.all("*", (req, res, next) => {

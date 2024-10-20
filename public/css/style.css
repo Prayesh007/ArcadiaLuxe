@@ -46,6 +46,10 @@ body{
     font-family: "Marcellus SC" , serif;
 }
 
+.search{
+    margin: auto;
+}
+
 .search-btn{
     display: flex !important;
     align-items: center !important;
@@ -305,6 +309,19 @@ background-color: black !important;
         width: 100%;
         padding: 0 !important;
     }
+    .tax-toggle-pc{
+        display: none;
+    }
+    .tax-toggle-mobile{
+        display: inline !important;
+    }
+    .form-check-input{
+        display: none;
+    }
+    .form-switch{
+        padding: 0 !important;
+    }
+
     
 
 }
