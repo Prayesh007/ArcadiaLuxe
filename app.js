@@ -230,24 +230,43 @@ app.get("/listings/:id", wrapAsync(async (req, res) => {
     res.render("./listings/show.ejs", { listing, coordinates });
 }));
 
-// create route 
+// // create route 
 
-app.post("/listings", isLoggedIn , upload.single('listing[image]') , validateListing  , wrapAsync(async (req, res, next) => {
-    let url = req.file.path;
-    let  filename = req.file.filename;
+// app.post("/listings", isLoggedIn , upload.single('listing[image]') , validateListing  , wrapAsync(async (req, res, next) => {
+//     let url = req.file.path;
+//     let  filename = req.file.filename;
 
-    // let listing = req.body.listing;
-    // let newlisting = new Listing(listing);
+//     // let listing = req.body.listing;
+//     // let newlisting = new Listing(listing);
 
-    const newListing = new Listing(req.body.listing);
-    newListing.owner = req.user._id;
-    newListing.image = {url,filename};
+//     const newListing = new Listing(req.body.listing);
+//     newListing.owner = req.user._id;
+//     newListing.image = {url,filename};
+//     await newListing.save();
+//     req.flash("success", "New listing created!");
+//     res.redirect("/listings");
+
+// })
+// );
+
+app.post("/listings", isLoggedIn, upload.single('listing[image]'), validateListing, wrapAsync(async (req, res, next) => {
+    const { listing } = req.body;
+    const newListing = new Listing(listing);
+
+    // Add uploaded image details only if a file is uploaded
+    if (req.file) {
+        newListing.image = {
+            url: req.file.path,
+            filename: req.file.filename
+        };
+    }
+
+    newListing.owner = req.user._id; // Set the owner of the listing
     await newListing.save();
     req.flash("success", "New listing created!");
     res.redirect("/listings");
+}));
 
-})
-);
 
 // edit route 
 
