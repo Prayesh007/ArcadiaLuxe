@@ -286,21 +286,44 @@ app.get("/listings/:id/edit", isLoggedIn, isOwner, wrapAsync(async (req, res) =>
 
 // update route 
 
-app.put("/listings/:id", isLoggedIn, isOwner, upload.single("listing[image]") , validateListing, wrapAsync(async (req, res) => {
-    let { id } = req.params;
-    let listing = await Listing.findByIdAndUpdate(id, { ...req.body.listing });
+// app.put("/listings/:id", isLoggedIn, isOwner, upload.single("listing[image]") , validateListing, wrapAsync(async (req, res) => {
+//     let { id } = req.params;
+//     let listing = await Listing.findByIdAndUpdate(id, { ...req.body.listing });
      
-    if(typeof req.file !== "undefined"){
-    let url = req.file.path;
-    let  filename = req.file.filename;
-    listing.image = {url,filename};
-    }
-    await listing.save();        
+//     if(typeof req.file !== "undefined"){
+//     let url = req.file.path;
+//     let  filename = req.file.filename;
+//     listing.image = {url,filename};
+//     }
+//     await listing.save();        
 
+//     req.flash("success", "Listing updated!");
+//     res.redirect(`/listings/${id}`);
+
+// }))
+
+app.put("/listings/:id", isLoggedIn, isOwner, upload.single("listing[image]"), wrapAsync(async (req, res) => {
+    const { id } = req.params;
+    const updatedData = req.body.listing;
+  
+    // Find the listing and update its non-image fields
+    const listing = await Listing.findByIdAndUpdate(id, updatedData, { new: true });
+  
+    // Only update the image if a new file is uploaded
+    if (req.file) {
+      listing.image = {
+        url: req.file.path,
+        filename: req.file.filename
+      };
+    }
+  
+    await listing.save();
     req.flash("success", "Listing updated!");
     res.redirect(`/listings/${id}`);
+  }));
+  
 
-}))
+  
 // delete route 
 
 app.delete("/listings/:id", isLoggedIn, isOwner, wrapAsync(async (req, res) => {

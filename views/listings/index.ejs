@@ -194,7 +194,8 @@
     <% for(let listing of allListings) { %>
         <a style="color: transparent !important;" href="/listings/<%= listing._id %>">
             <div class="card listing-card" data-categories="<%= listing.category.join(',') %>">
-                <img src="<%= listing.image.url %>" class="card-img-top" alt="listing-image" style="height: 20rem;">
+                <!-- <img src="<%= listing.image.url %>" class="card-img-top" alt="listing-image" style="height: 20rem;"> -->
+                <img src="<%= listing.image.url %>?t=<%= Date.now() %>" class="card-img-top" alt="listing-image" style="height: 20rem;">
                 <div class="card-img-overlay">
                     <h5 class="card-title"><%= listing.title %></h5>
                     <p class="card-text"><%= listing.description %></p>
